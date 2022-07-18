@@ -2,13 +2,15 @@
     require "./model/produto.model.php";
     require "./db/produto.service.php";
     require "./db/conexao.php";
-
+    
+    //verifica se os parametros estão setados e atribui a variavel
     $acao = isset($_GET['acao']) ? $_GET['acao'] : $acao;
     $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : $acao;
 
     
     
     if($acao == 'create') {
+        //valida se o campo está preenchido e retorna para o usuario
         foreach ($_POST as $key => $value){
             if (empty($value)){
                 header('Location: ../views/index.php?campo='.$key.'&nome='.$_POST['nome'].'&preco='.$_POST['preco'].'&cor='.$_POST['cor']);
@@ -34,7 +36,7 @@
         $produtoService = new ProdutoService($conexao, $produto);   
         $produtos = $produtoService->read();
 
-        
+        //calculo do desconto com base nas regras de negocio
         foreach($produtos as $indice => $produto) {
             $desconto[$indice] = $produto->preco;
             
